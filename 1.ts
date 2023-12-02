@@ -1007,15 +1007,60 @@ const input = [
 ]
 
 let res = input.reduce((sum, line) => {
-    const firstNumber = line.split("").find(e => !Number.isNaN(parseInt(e))) as string
-    const lastNumber = line.split("").reverse().find(e => !Number.isNaN(parseInt(e))) as string
+    const splittedLine = line.split("")
+    const reversedsplittedLine = splittedLine.reverse()
+    const firstNumber = splittedLine.find(e => !Number.isNaN(parseInt(e))) as string
+    const lastNumber = reversedsplittedLine.find(e => !Number.isNaN(parseInt(e))) as string
     return sum + parseInt(firstNumber) * 10 + parseInt(lastNumber)
 }, 0)
 
 console.log('res', res)
 
 // -----------------------------------------------------------------------------------------------
-// -------------                          PARTIE 2                                   -------------
+// -------------                 PARTIE 1 : pour étudiants                           -------------
+// -----------------------------------------------------------------------------------------------
+
+let sum = 0
+
+for (let i = 0; i < input.length; i++) {
+    const line = input[i];
+    const splittedLine = line.split("")
+    let dizaine: number | undefined;
+    let unite: number | undefined;
+
+    // Get first number
+    let indexDizaine = 0
+    while(dizaine === undefined) {
+        const letter = splittedLine[indexDizaine];
+        // Try to parse the letter to a number
+        const num = parseInt(letter)
+        if (!Number.isNaN(num)) {
+            dizaine = num
+        }
+        indexDizaine++
+    }
+
+    // Get last number whithout break but finishingg when we find a number
+    let indexUnite = splittedLine.length - 1
+    while(unite === undefined) {
+        const letter = splittedLine[indexUnite];
+        // Try to parse the letter to a number
+        const num = parseInt(letter)
+        if (!Number.isNaN(num)) {
+            unite = num
+        }
+        indexUnite--
+    }
+
+    const lineNumber = dizaine * 10 + unite
+    console.log('line number', lineNumber)
+    sum += lineNumber
+}
+
+console.log('sum', sum)
+
+// -----------------------------------------------------------------------------------------------
+// -------------                PARTIE 2 (non factorisée)                            -------------
 // -----------------------------------------------------------------------------------------------
 const input2 = [
 "gtlbhbjgkrb5sixfivefivetwosix",
