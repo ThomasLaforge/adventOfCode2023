@@ -1,7 +1,5 @@
-// -----------------------------------------------------------------------------------------------
-// -------------                          PARTIE 1                                   -------------
-// -----------------------------------------------------------------------------------------------
-const input = [
+
+const dataExoOne = [
     "gtlbhbjgkrb5sixfivefivetwosix",
     "ninesixrgxccvrqscbskgzxh6cpvpxsqnb6",
     "dxxzrlzkksfsffp4",
@@ -1003,64 +1001,72 @@ const input = [
     "44two1",
     "eightrtsjszc2"
 ]
+// -----------------------------------------------------------------------------------------------
+// -------------                          PARTIE 1                                   -------------
+// -----------------------------------------------------------------------------------------------
+export function exerciseOnePartOne(input: string[]) {
+    let res = input.reduce((sum, line) => {
+        const splittedLine = line.split("")
+        const reversedsplittedLine = splittedLine.reverse()
+        const firstNumber = splittedLine.find(a => !Number.isNaN(parseInt(a))) as string
+        const lastNumber = reversedsplittedLine.find(e => !Number.isNaN(parseInt(e))) as string
+        return sum + parseInt(firstNumber) * 10 + parseInt(lastNumber)
+    }, 0)
+    
+    return res
+}
 
-let res = input.reduce((sum, line) => {
-    const splittedLine = line.split("")
-    const reversedsplittedLine = splittedLine.reverse()
-    const firstNumber = splittedLine.find(e => !Number.isNaN(parseInt(e))) as string
-    const lastNumber = reversedsplittedLine.find(e => !Number.isNaN(parseInt(e))) as string
-    return sum + parseInt(firstNumber) * 10 + parseInt(lastNumber)
-}, 0)
-
-console.log('res', res)
 
 // -----------------------------------------------------------------------------------------------
 // -------------                 PARTIE 1 : pour étudiants                           -------------
 // -----------------------------------------------------------------------------------------------
 
-let sum = 0
+export function exerciseOnePartOneForStudents(input: string[]) {
+    let sum = 0
 
-for (let i = 0; i < input.length; i++) {
-    const line = input[i];
-    const splittedLine = line.split("")
-    let dizaine: number | undefined;
-    let unite: number | undefined;
+    for (let i = 0; i < input.length; i++) {
+        const line = input[i];
+        const splittedLine = line.split("")
+        let dizaine: number | undefined;
+        let unite: number | undefined;
 
-    // Get first number
-    let indexDizaine = 0
-    while(dizaine === undefined) {
-        const letter = splittedLine[indexDizaine];
-        // Try to parse the letter to a number
-        const num = parseInt(letter)
-        if (!Number.isNaN(num)) {
-            dizaine = num
+        // Get first number
+        let indexDizaine = 0
+        while(dizaine === undefined) {
+            const letter = splittedLine[indexDizaine];
+            // Try to parse the letter to a number
+            const num = parseInt(letter)
+            if (!Number.isNaN(num)) {
+                dizaine = num
+            }
+            indexDizaine++
         }
-        indexDizaine++
+
+        // Get last number whithout break but finishingg when we find a number
+        let indexUnite = splittedLine.length - 1
+        while(unite === undefined) {
+            const letter = splittedLine[indexUnite];
+            // Try to parse the letter to a number
+            const num = parseInt(letter)
+            if (!Number.isNaN(num)) {
+                unite = num
+            }
+            indexUnite--
+        }
+
+        const lineNumber = dizaine * 10 + unite
+        console.log('line number', lineNumber)
+        sum += lineNumber
     }
 
-    // Get last number whithout break but finishingg when we find a number
-    let indexUnite = splittedLine.length - 1
-    while(unite === undefined) {
-        const letter = splittedLine[indexUnite];
-        // Try to parse the letter to a number
-        const num = parseInt(letter)
-        if (!Number.isNaN(num)) {
-            unite = num
-        }
-        indexUnite--
-    }
-
-    const lineNumber = dizaine * 10 + unite
-    console.log('line number', lineNumber)
-    sum += lineNumber
+    // console.log('sum', sum)
+    return sum
 }
-
-console.log('sum', sum)
 
 // -----------------------------------------------------------------------------------------------
 // -------------                PARTIE 2 (non factorisée)                            -------------
 // -----------------------------------------------------------------------------------------------
-const input2 = [
+const dataExotwo = [
 "gtlbhbjgkrb5sixfivefivetwosix",
 "ninesixrgxccvrqscbskgzxh6cpvpxsqnb6",
 "dxxzrlzkksfsffp4",
@@ -2063,86 +2069,89 @@ const input2 = [
 "eightrtsjszc2"
 ]
 
-const stringNumbers = [
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    'nine'
-]
+export function getExoOnePartTwo(data: string[]){
 
-function getNumber(stringNumber: string){
-    if(stringNumber === 'one')
-        return 1
-    if(stringNumber === 'two')
-        return 2
-    if(stringNumber === 'three')
-        return 3
-    if(stringNumber === 'four')
-        return 4
-    if(stringNumber === 'five')
-        return 5
-    if(stringNumber === 'six')
-        return 6
-    if(stringNumber === 'seven')
-        return 7
-    if(stringNumber === 'eight')
-        return 8
-
-        return 9
-}
-
-let res2 = input2.reduce((sum, line) => {
-    let firstNumberIndex = line.split("").findIndex(e => !Number.isNaN(parseInt(e)))
-    let lastNumberIndex = line.split("").reverse().findIndex(e => !Number.isNaN(parseInt(e)))
+    const stringNumbers = [
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        'nine'
+    ]
     
-    const firstStringNumbers = stringNumbers.map(stringNum => ({
-        index: line.indexOf(stringNum),
-        stringNum
-    }))
-    .filter(e => e.index !== -1)
-    .sort((a, b) => a.index - b.index)
-
-    const lastStringNumbers = stringNumbers.map(stringNum => ({
-        index: line.lastIndexOf(stringNum),
-        stringNum
-    }))
-    .filter(e => e.index !== -1)
-    .sort((a, b) => b.index - a.index)
-
-
-    let firstNumber;
-    let lastNumber;
-
-    if(firstNumberIndex === -1){
-        firstNumber = getNumber(firstStringNumbers[0].stringNum)
+    function getNumber(stringNumber: string){
+        if(stringNumber === 'one')
+            return 1
+        if(stringNumber === 'two')
+            return 2
+        if(stringNumber === 'three')
+            return 3
+        if(stringNumber === 'four')
+            return 4
+        if(stringNumber === 'five')
+            return 5
+        if(stringNumber === 'six')
+            return 6
+        if(stringNumber === 'seven')
+            return 7
+        if(stringNumber === 'eight')
+            return 8
+    
+            return 9
     }
-    else {
-        if(firstStringNumbers.length > 0 && firstStringNumbers[0].index < firstNumberIndex){
+    
+    let res = data.reduce((sum, line) => {
+        let firstNumberIndex = line.split("").findIndex(e => !Number.isNaN(parseInt(e)))
+        let lastNumberIndex = line.split("").reverse().findIndex(e => !Number.isNaN(parseInt(e)))
+        
+        const firstStringNumbers = stringNumbers.map(stringNum => ({
+            index: line.indexOf(stringNum),
+            stringNum
+        }))
+        .filter(e => e.index !== -1)
+        .sort((a, b) => a.index - b.index)
+    
+        const lastStringNumbers = stringNumbers.map(stringNum => ({
+            index: line.lastIndexOf(stringNum),
+            stringNum
+        }))
+        .filter(e => e.index !== -1)
+        .sort((a, b) => b.index - a.index)
+    
+    
+        let firstNumber;
+        let lastNumber;
+    
+        if(firstNumberIndex === -1){
             firstNumber = getNumber(firstStringNumbers[0].stringNum)
         }
         else {
-            firstNumber = parseInt(line[firstNumberIndex])
+            if(firstStringNumbers.length > 0 && firstStringNumbers[0].index < firstNumberIndex){
+                firstNumber = getNumber(firstStringNumbers[0].stringNum)
+            }
+            else {
+                firstNumber = parseInt(line[firstNumberIndex])
+            }
         }
-    }
-
-    if(lastNumberIndex === -1){
-        lastNumber = getNumber(lastStringNumbers[0].stringNum)
-    }
-    else {
-        if(lastStringNumbers.length > 0 && lastStringNumbers[0].index > line.length - 1 - lastNumberIndex){
+    
+        if(lastNumberIndex === -1){
             lastNumber = getNumber(lastStringNumbers[0].stringNum)
         }
         else {
-            lastNumber = parseInt(line[line.length - 1 - lastNumberIndex])
+            if(lastStringNumbers.length > 0 && lastStringNumbers[0].index > line.length - 1 - lastNumberIndex){
+                lastNumber = getNumber(lastStringNumbers[0].stringNum)
+            }
+            else {
+                lastNumber = parseInt(line[line.length - 1 - lastNumberIndex])
+            }
         }
-    }
-
-    return sum + firstNumber * 10 + lastNumber
-}, 0)
-
-console.log('res2', res2)
+    
+        return sum + firstNumber * 10 + lastNumber
+    }, 0)
+    
+    return res
+}

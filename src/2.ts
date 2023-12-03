@@ -1,5 +1,5 @@
 
-const input = [
+const inputDayTwo = [
     "Game 1: 4 red, 5 blue, 4 green; 7 red, 8 blue, 2 green; 9 blue, 6 red; 1 green, 3 red, 7 blue; 3 green, 7 red",
     "Game 2: 20 blue, 12 green, 2 red; 1 red, 2 green, 20 blue; 1 red, 14 green, 17 blue; 7 green, 17 blue",
     "Game 3: 3 green, 4 red; 10 red, 2 blue, 5 green; 9 red, 3 blue, 5 green",
@@ -110,7 +110,7 @@ const redObjectif = 12
 const greenObjectif = 13
 const blueObjectif = 14
 
-const result = input.reduce((sum, curr) => {
+const result = inputDayTwo.reduce((sum, curr) => {
     const [gameWithId, colors] = curr.split(':')
     const id = parseInt(gameWithId.split('Game ')[1])
     
@@ -144,7 +144,7 @@ console.log('result', result)
 // -------------                          PARTIE 2                                   -------------
 // -----------------------------------------------------------------------------------------------
 
-const result2 = input.reduce((sum, curr) => {
+const result2 = inputDayTwo.reduce((sum, curr) => {
     const [gameWithId, colors] = curr.split(':')
     const id = parseInt(gameWithId.split('Game ')[1])
     let minRed = 0
