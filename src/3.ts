@@ -141,6 +141,10 @@ const input = [
     ".122.273...............759....137...........574............229...................................497.41............................872.78..."
 ]
 
+// ---------------------------------------------------------------------------
+// ---------                Prepare the data                      ------------
+// ---------------------------------------------------------------------------
+
 interface ISymbolPosition {
     value: string,
     i: number,
@@ -151,7 +155,7 @@ let symbols: ISymbolPosition[] = []
 
 let lineIndex = 0
 
-// get all symbols positions
+// get all symbols
 while(lineIndex < input.length){
     const line = input[lineIndex]
     for (let j = 0; j < line.length; j++) {
@@ -210,6 +214,10 @@ while(lineIndex < input.length){
     lineIndex++
 }
 
+// -----------------------------------------------------------------------------------------------
+// -------------                          PARTIE 1                                   -------------
+// -----------------------------------------------------------------------------------------------
+
 const res = numbers.reduce((sum, num) => {
     const isLinkedToSymbol = symbols.find(s => {
         // Same Line
@@ -245,3 +253,47 @@ const res = numbers.reduce((sum, num) => {
 
 // console.log('datas', symbols.slice(0, 10), numbers.slice(0, 10))
 console.log('res', res)
+
+// -----------------------------------------------------------------------------------------------
+// -------------                          PARTIE 2                                   -------------
+// -----------------------------------------------------------------------------------------------
+
+const gears = symbols.filter(s => s.value === "*")
+const gearsNumbers = gears.map(g => {
+    return numbers.filter(num => {
+        // Same Line
+        if(g.i === num.lineIndex){
+            // Before
+            if(g.j === num.startCol - 1){
+                return true
+            }
+            // After
+            if(g.j === num.endCol + 1){
+                return true
+            }
+        }
+
+        // on top Line
+        if(g.i === num.lineIndex - 1){
+            if(g.j >= num.startCol - 1 && g.j <= num.endCol + 1){
+                return true
+            }
+        }
+
+        // under line
+        if(g.i === num.lineIndex + 1){
+            if(g.j >= num.startCol - 1 && g.j <= num.endCol + 1){
+                return true
+            }
+        }
+
+        return false
+    })    
+})
+
+const res2 = gearsNumbers.reduce((sum, gNumbers) => {
+    const toAdd = gNumbers.length === 2 ? gNumbers[0].value * gNumbers[1].value : 0
+    return sum + toAdd
+}, 0)
+
+console.log('res', res2)
