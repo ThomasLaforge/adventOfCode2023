@@ -250,7 +250,6 @@ export function getExo4PartOne(data: string[]){
     }
     , 0)
 
-    console.log('res', res)
     return res
 }
 
@@ -287,16 +286,12 @@ export function getExo4PartTwo(data: string[]){
             return sum + (isPresent ? 1 : 0)
         }, 0)
 
-        console.log('res line', res, gameIndex);
-
         if(res > 0){
             for (let i = 0; i < res; i++) {
                 initialInstances[gameIndex + i + 1] += initialInstances[gameIndex];
             }
         }
     })
-
-    console.log('res 2', initialInstances)
 
     return initialInstances.reduce( (sum, nbInstances) => sum + nbInstances, 0)
 }
